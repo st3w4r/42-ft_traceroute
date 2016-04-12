@@ -1,6 +1,3 @@
-[submodule "42-libft"]
-	path = 42-libft
-	url = https://github.com/st3w4r/42-libft.git
 [submodule "libft"]
 	path = libft
 	url = https://github.com/st3w4r/42-libft.git
