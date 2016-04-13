@@ -32,7 +32,7 @@ LIBS = -L libft/ -lft -lm
 SRC =	main.c \
 	tr_helper.c \
 	tr_connect.c \
-#	tr_loop.c \
+	tr_loop.c \
 #	tr_display.c
 
 OBJ = $(addprefix $(PATH_SRC), $(SRC:.c=.o))

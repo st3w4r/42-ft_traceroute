@@ -21,6 +21,7 @@
 # include <netinet/in.h>
 # include <netinet/ip.h>
 # include <netinet/ip_icmp.h>
+# include <netinet/udp.h>
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <sys/time.h>
@@ -62,14 +63,12 @@ typedef struct	s_env {
 	struct addrinfo			hints;
 	struct addrinfo			*res;
 	// SEND
-//	char					buf[76];
+	char					buf[76];
 	char					*host_src;
 	char					*host_dst;
-/*
 	char					*hostname_dst;
 	struct ip				*ip;
-	struct icmp				*icmp;
-*/
+	struct udphdr			*udp;
 	// RECIEVE
 /*
 	struct iovec			iov[1];
@@ -85,9 +84,9 @@ t_env	env;
 ** Desc: Configure and open socket
 */
 int		tr_open_socket(t_env *env);
+void	tr_configure_header(t_env *env);
+void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl, unsigned int port_dst);
 /*
-void	pg_configure_header(t_env *env);
-void	pg_configure_send(t_env *env, unsigned short id, unsigned short seq);
 void	pg_configure_receive(t_env *env);
 */
 /*
@@ -95,7 +94,7 @@ void	pg_configure_receive(t_env *env);
 ** Desc: Loop to send ICMP ECHO and receive ICMP REPLY
 */
 
-//void	pg_loop(t_env *env);
+void	tr_loop(t_env *env);
 
 /*
 ** Name: pg_display

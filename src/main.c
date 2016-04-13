@@ -61,24 +61,25 @@ int			main(int argc, char **argv)
 	pos_args = tr_options(&env, argc, argv);
 	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
 	env.host_src = "0.0.0.0";
-	tr_open_socket(&env);
 	/*
 	env.flags = 0;
 	env.count = 0;
 	env.interval = 1;
 	env.timeout = 1;
 	env.ttl = 64;
-	pos_args = pg_options(&env, argc, argv);
+	*/
+	pos_args = tr_options(&env, argc, argv);
 	env.hostname_dst = argv[pos_args];
-	env.host_dst = pg_get_ip_from_hostname(argv[pos_args]);
+	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
 	env.host_src = "0.0.0.0";
+	/*
 	env.min = DBL_MAX;
 	env.pid = getpid();
 	*/
-	//pg_open_socket(&env);
-	//pg_configure_header(&env);
+	tr_open_socket(&env);
+	tr_configure_header(&env);
 	//signal(SIGALRM, pg_sig_handler);
 	//signal(SIGINT, pg_sig_handler);
-	//pg_loop(&env);
+	tr_loop(&env);
 	return (0);
 }
