@@ -6,7 +6,7 @@
 #    By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/04 16:13:54 by ybarbier          #+#    #+#              #
-#    Updated: 2016/04/12 17:02:28 by ybarbier         ###   ########.fr        #
+#    Updated: 2016/04/13 16:37:05 by ybarbier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LIBS = -L libft/ -lft -lm
 
 SRC =	main.c \
 	tr_helper.c \
-#	tr_connect.c \
+	tr_connect.c \
 #	tr_loop.c \
 #	tr_display.c
 
