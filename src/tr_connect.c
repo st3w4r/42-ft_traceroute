@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:09 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/14 10:27:32 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/14 18:21:31 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		tr_open_socket(t_env *env)
 	hincl = 1;
 	ft_memset(&(env->hints), 0, sizeof(env->hints));
 	env->hints.ai_family = AF_INET;
-	env->hints.ai_socktype = SOCK_RAW;
+	env->hints.ai_socktype = SOCK_DGRAM;
 	env->hints.ai_protocol = IPPROTO_UDP;
 	if (getaddrinfo(env->host_dst, NULL, &(env->hints), &(env->res)) < 0)
 		ft_error_str_exit("traceroute: unknown host\n");
@@ -38,7 +38,7 @@ void	tr_configure_header(t_env *env)
 	env->udp = (struct udphdr*)(env->ip + 1);
 }
 
-void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl, unsigned int port_dst)
+void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl)
 {
 	ft_memset(&(env->buf), 0, sizeof(env->buf));
 	env->ip->ip_v = 4;
@@ -53,8 +53,10 @@ void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsign
 	inet_pton(env->res->ai_family, env->host_src, &(env->ip->ip_src.s_addr));
 	inet_pton(env->res->ai_family, env->host_dst, &(env->ip->ip_dst.s_addr));
 	//UDP Header
+	/*
 	env->udp->source = 0;
 	env->udp->dest = port_dst;
 	env->udp->len = sizeof(*(env->udp));
 	env->udp->check = 0;
+	*/
 }

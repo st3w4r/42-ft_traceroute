@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/14 10:17:37 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/14 18:33:23 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_env	env;
 */
 int		tr_open_socket(t_env *env);
 void	tr_configure_header(t_env *env);
-void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl, unsigned int port_dst);
+void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl);
 /*
 void	pg_configure_receive(t_env *env);
 */
@@ -94,7 +94,7 @@ void	pg_configure_receive(t_env *env);
 ** Desc: Loop to send ICMP ECHO and receive ICMP REPLY
 */
 
-void	tr_loop(t_env *env);
+void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries);
 
 /*
 ** Name: pg_display
