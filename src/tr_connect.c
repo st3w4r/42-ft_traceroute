@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:09 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/13 18:41:49 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/14 10:27:32 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsign
 	env->ip->ip_tos = 0;
 	env->ip->ip_len = htons(sizeof(env->buf));
 	env->ip->ip_id = 0;
-	env->ip->ip_off = htons(IP_DF);
+	env->ip->ip_off |= htons(IP_DF);
 	env->ip->ip_ttl = ttl;
 	env->ip->ip_p = env->res->ai_protocol;
 	env->ip->ip_sum = 0;

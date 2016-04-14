@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/13 16:45:17 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/14 10:17:37 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct	s_env {
 	double					cumul_s;
 */
 	// SOCKET
-	int						s;
+//	int						s;
 	struct addrinfo			hints;
 	struct addrinfo			*res;
 	// SEND
