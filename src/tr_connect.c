@@ -12,7 +12,7 @@
 
 #include "ft_traceroute.h"
 
-int		tr_open_socket(t_env *env)
+int		tr_open_socket(t_env *env, unsigned short ttl)
 {
 	int hincl;
 	int s;
@@ -22,13 +22,13 @@ int		tr_open_socket(t_env *env)
 	env->hints.ai_family = AF_INET;
 	env->hints.ai_socktype = SOCK_DGRAM;
 	env->hints.ai_protocol = IPPROTO_UDP;
-	if (getaddrinfo(env->host_dst, NULL, &(env->hints), &(env->res)) < 0)
+	if (getaddrinfo(env->host_dst, "33434", &(env->hints), &(env->res)) < 0)
 		ft_error_str_exit("traceroute: unknown host\n");
 	if ((s = socket(env->res->ai_family, env->res->ai_socktype,
 		env->res->ai_protocol)) < 0)
 		ft_error_str_exit("Error socket opening\n");
-	if (setsockopt(s, IPPROTO_IP, IP_HDRINCL, &hincl, sizeof(hincl)) < 0)
-		ft_error_str_exit("Error setsocket\n");
+	if (setsockopt(s, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl)) < 0)
+		ft_error_str_exit("Error setsocket ttl\n");
 	return (s);
 }
 

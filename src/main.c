@@ -76,8 +76,8 @@ int			main(int argc, char **argv)
 	env.min = DBL_MAX;
 	env.pid = getpid();
 	*/
-	tr_open_socket(&env);
-	tr_configure_header(&env);
+	// tr_open_socket(&env);
+	// tr_configure_header(&env);
 	//signal(SIGALRM, pg_sig_handler);
 	//signal(SIGINT, pg_sig_handler);
 	tr_loop(&env, 30, 3);
