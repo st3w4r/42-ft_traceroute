@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:56:35 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/14 18:40:00 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/15 14:33:35 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ int			main(int argc, char **argv)
 	// tr_configure_header(&env);
 	//signal(SIGALRM, pg_sig_handler);
 	//signal(SIGINT, pg_sig_handler);
-	tr_loop(&env, 30, 3);
+	tr_loop(&env, 5, 3);
 	return (0);
 }

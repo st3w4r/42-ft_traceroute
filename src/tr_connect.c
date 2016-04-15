@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:09 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/14 18:21:31 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/15 11:24:08 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	tr_configure_header(t_env *env)
 	env->udp = (struct udphdr*)(env->ip + 1);
 }
 
-void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl)
+void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq,
+		unsigned short ttl)
 {
 	ft_memset(&(env->buf), 0, sizeof(env->buf));
 	env->ip->ip_v = 4;
