@@ -80,6 +80,6 @@ int			main(int argc, char **argv)
 	// tr_configure_header(&env);
 	//signal(SIGALRM, pg_sig_handler);
 	//signal(SIGINT, pg_sig_handler);
-	tr_loop(&env, 10, 3);
+	tr_loop(&env, 10, 1);
 	return (0);
 }

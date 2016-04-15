@@ -34,9 +34,15 @@ void	tr_receive_response(t_env *env, fd_set rdfs, int ret)
 void	tr_read(t_env *env, int s)
 {
 	char buf[400];
-	// if (recvfrom(s, buf, sizeof(buf), 0, env->res->ai_addr, &(env->res->ai_addrlen)) < 0)
-		// ft_error_str_exit("Error recvfrom\n");
-	printf("Buffer: %s\n", buf);
+	struct ip *ip;
+	struct icmp *icmp;
+
+	ip = (struct ip *)buf;
+	icmp = (struct icmp *)(ip + 1);
+	if (recvfrom(s, buf, sizeof(buf), 0, env->res->ai_addr, &(env->res->ai_addrlen)) < 0)
+		ft_error_str_exit("Error recvfrom\n");
+
+	printf("Buffer ICMP TYPE: %u\n", icmp->icmp_type);
 }
 
 int		tr_squeries_once(t_env *env, t_uint ttl, unsigned int port)
@@ -58,15 +64,15 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 {
 	unsigned int		ttl_count;
 	unsigned int		squeries_count;
-	struct timeval		tv;
-	fd_set				rdfs;
-	int					max_socket;
-	int					s;
-	int					s_r;
-	int					arr_sockets[max_ttl * squeries];
-	int					ret;
-	int					i;
-	int					port;
+	struct timeval	tv;
+	fd_set					rdfs;
+	int							max_socket;
+	int							s;
+	int							s_r;
+	int							arr_sockets[max_ttl * squeries];
+	int							ret;
+	int							i;
+	int							port;
 
 	ttl_count = 1;
 	tv.tv_sec = 5;
@@ -82,9 +88,9 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 		{
 			s_r = tr_open_socket_receive();
 			s = tr_squeries_once(env, ttl_count, port++);
-			ft_putstr("Socket: ");
-			ft_putnbr(s_r);
-			ft_putstr("\n");
+			// ft_putstr("Socket: ");
+			// ft_putnbr(s_r);
+			// ft_putstr("\n");
 
 			close(s);
 			FD_SET(s_r, &rdfs);
@@ -94,22 +100,9 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 			squeries_count++;
 		}
 
-//		ft_putstr("FD_ISSET: ");
-//		ft_putnbr(FD_ISSET(3, &rdfs));
-//		ft_putstr("\n");
-		// while (ret <= 0)
-		// printf("MAX Scoket %d\n", s_r);
-
-
-			ret = select(s_r + 1, &rdfs, NULL, NULL, &tv);
-			tr_receive_response(env, rdfs, ret);
-		// ft_putstr("Scoket ready: ");
-		// ft_putnbr(ret);
-		// ft_putstr("\n");
-		// tr_read(env, s_r);
-
-//		ret = select(max_socket + 1, &rdfs, NULL, NULL, &tv);
-		//tr_receive_response(env, rdfs, ret);
+		ret = select(s_r + 1, &rdfs, NULL, NULL, &tv);
+		tr_receive_response(env, rdfs, ret);
+		tr_read(env, s_r);
 		ttl_count++;
 	}
 }
