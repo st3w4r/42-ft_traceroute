@@ -12,23 +12,32 @@
 
 #include "ft_traceroute.h"
 
-int		tr_open_socket(t_env *env, unsigned short ttl)
+int		tr_open_socket(t_env *env, unsigned short ttl, unsigned int port)
 {
-	int hincl;
 	int s;
 
-	hincl = 1;
 	ft_memset(&(env->hints), 0, sizeof(env->hints));
 	env->hints.ai_family = AF_INET;
 	env->hints.ai_socktype = SOCK_DGRAM;
 	env->hints.ai_protocol = IPPROTO_UDP;
-	if (getaddrinfo(env->host_dst, "33434", &(env->hints), &(env->res)) < 0)
+
+	if (getaddrinfo(env->host_dst, ft_itoa(port), &(env->hints), &(env->res)) < 0)
 		ft_error_str_exit("traceroute: unknown host\n");
 	if ((s = socket(env->res->ai_family, env->res->ai_socktype,
 		env->res->ai_protocol)) < 0)
 		ft_error_str_exit("Error socket opening\n");
 	if (setsockopt(s, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl)) < 0)
 		ft_error_str_exit("Error setsocket ttl\n");
+	// printf("PORT: %hu\n", htons(((struct sockaddr_in *)env->res->ai_addr)->sin_port));
+	return (s);
+}
+
+int		tr_open_socket_receive(void)
+{
+	int s;
+
+	if ((s = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
+		ft_error_str_exit("Error socket opening\n");
 	return (s);
 }
 

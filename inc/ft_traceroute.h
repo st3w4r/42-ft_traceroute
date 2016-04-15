@@ -83,7 +83,8 @@ t_env	env;
 ** Name: pg_connect
 ** Desc: Configure and open socket
 */
-int		tr_open_socket(t_env *env, unsigned short ttl);
+int		tr_open_socket(t_env *env, unsigned short ttl, unsigned int port);
+int		tr_open_socket_receive(void);
 void	tr_configure_header(t_env *env);
 void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl);
 /*

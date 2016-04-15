@@ -58,9 +58,9 @@ int			main(int argc, char **argv)
 		tr_error_usage();
 	if (getuid() != 0)
 		ft_error_str_exit("ft_ping: Operation not permitted\n");
-	pos_args = tr_options(&env, argc, argv);
-	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
-	env.host_src = "0.0.0.0";
+	// pos_args = tr_options(&env, argc, argv);
+	// env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
+	// env.host_src = "0.0.0.0";
 	/*
 	env.flags = 0;
 	env.count = 0;
@@ -80,6 +80,6 @@ int			main(int argc, char **argv)
 	// tr_configure_header(&env);
 	//signal(SIGALRM, pg_sig_handler);
 	//signal(SIGINT, pg_sig_handler);
-	tr_loop(&env, 5, 3);
+	tr_loop(&env, 10, 3);
 	return (0);
 }

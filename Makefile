@@ -12,7 +12,7 @@
 
 #____________CONFIG____________#
 
-NAME = ft_tarceroute
+NAME = ft_traceroute
 
 PATH_SRC = ./src/
 
