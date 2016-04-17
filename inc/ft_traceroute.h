@@ -41,6 +41,8 @@ enum	e_flags
 };
 
 typedef struct	s_env {
+	unsigned int	hops;
+	unsigned int	squeries;
 /*
 	int						flags;
 	unsigned int			count;
@@ -77,7 +79,7 @@ typedef struct	s_env {
 */
 }				t_env;
 
-t_env	env;
+// t_env	env;
 
 /*
 ** Name: pg_connect
@@ -101,7 +103,7 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries);
 ** Name: pg_display
 ** Desc: Functions to display informations
 */
-//void	pg_display_info(t_env *env);
+void	tr_display_info(t_env *env);
 //void	pg_display_response(t_env *env, int bytes_receive, int seq,
 //		double duration);
 //void	pg_display_stats(t_env *env);

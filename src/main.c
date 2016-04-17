@@ -53,6 +53,7 @@ int			tr_options(t_env *env, int argc, char **argv)
 int			main(int argc, char **argv)
 {
 	int		pos_args;
+	t_env	env;
 
 	if (argc <= 1)
 		tr_error_usage();
@@ -68,9 +69,13 @@ int			main(int argc, char **argv)
 	env.timeout = 1;
 	env.ttl = 64;
 	*/
+	env.hops = 10;
+	env.squeries = 3;
 	pos_args = tr_options(&env, argc, argv);
 	env.hostname_dst = argv[pos_args];
 	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
+	// printf("POS: %s\n", argv[pos_args]);
+	// env.host_dst = argv[pos_args];
 	env.host_src = "0.0.0.0";
 	/*
 	env.min = DBL_MAX;
@@ -80,6 +85,6 @@ int			main(int argc, char **argv)
 	// tr_configure_header(&env);
 	//signal(SIGALRM, pg_sig_handler);
 	//signal(SIGINT, pg_sig_handler);
-	tr_loop(&env, 10, 1);
+	tr_loop(&env, env.hops, env.squeries);
 	return (0);
 }

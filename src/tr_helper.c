@@ -14,10 +14,10 @@
 
 char	*tr_get_ip_from_hostname(char *hostname)
 {
-	struct addrinfo		hints;
-	struct addrinfo		*res;
+	struct addrinfo			hints;
+	struct addrinfo			*res;
 	struct sockaddr_in	*sa_in;
-	char				*ip_share;
+	char								*ip_share;
 
 	ft_memset(&(hints), 0, sizeof(hints));
 	hints.ai_family = AF_INET;
@@ -26,6 +26,8 @@ char	*tr_get_ip_from_hostname(char *hostname)
 	if (getaddrinfo(hostname, NULL, &hints, &(res)) < 0)
 		ft_error_str_exit("tracerout: unknown host\n");
 	sa_in = (struct sockaddr_in *)res->ai_addr;
+	// ip_share = inet_ntoa(sa_in->sin_addr);
 	inet_ntop(res->ai_family, &(sa_in->sin_addr), ip_share, INET_ADDRSTRLEN);
+	// printf("IP: %s\n", ip_share);
 	return (ip_share);
 }
