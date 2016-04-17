@@ -121,6 +121,7 @@ void	tr_display_response(t_env *env, char *fqdn, char *host,
 //unsigned short	pg_icmp_checksum(unsigned short *buf, int len);
 //void	pg_sig_handler(int sig);
 char	*tr_get_ip_from_hostname(char *hostname);
+char	*tr_get_hostname_from_ip(struct in_addr ip);
 //void	pg_duration_stats(t_env *env, double duration);
 
 #endif

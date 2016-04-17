@@ -42,7 +42,7 @@ t_bool	tr_read(t_env *env, int s, unsigned int squeries_count,
 	duration = (((double)tv_end.tv_sec * 1000000.0 + tv_end.tv_usec) - \
 		((double)tv_start.tv_sec * 1000000.0 + tv_start.tv_usec)) / 1000;
 
-	tr_display_response(env, inet_ntoa(ip->ip_src), inet_ntoa(ip->ip_src),
+	tr_display_response(env, tr_get_hostname_from_ip(ip->ip_src), inet_ntoa(ip->ip_src),
 		squeries_count, duration);
 	if (ft_strcmp(env->host_dst, inet_ntoa(ip->ip_src)) == 0)
 		return TRUE;
@@ -87,7 +87,7 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 		squeries_count = 0;
 		ret = 0;
 		tv.tv_sec = 5;
-		fprintf(stdout, "%*d  ", 2, ttl_count);
+		fprintf(stdout, "%*d ", 2, ttl_count);
 		while (squeries_count < squeries)
 		{
 			gettimeofday(&tv_start, NULL);

@@ -31,3 +31,13 @@ char	*tr_get_ip_from_hostname(char *hostname)
 	// printf("IP: %s\n", ip_share);
 	return (ip_share);
 }
+
+char	*tr_get_hostname_from_ip(struct in_addr ip)
+{
+	struct hostent *hostent;
+
+	hostent = gethostbyaddr(&ip, sizeof(ip), AF_INET);
+	if (hostent)
+		return (hostent->h_name);
+	return (inet_ntoa(ip));
+}

@@ -10,14 +10,14 @@ void	tr_display_response(t_env *env, char *fqdn, char *host,
 				unsigned int squeries_count, double duration)
 {
 	if (host == NULL)
-		fprintf(stdout, "* ");
+		printf(" *");
 	else
 	{
 		if (squeries_count == 0)
-			fprintf(stdout, "%s (%s)  ", fqdn, host);
-		fprintf(stdout, "%.3f ms  ", duration);
+			printf(" %s (%s)", fqdn, host);
+		printf("  %.3f ms", duration);
 	}
 
 	if (squeries_count == env->squeries - 1)
-		fprintf(stdout, "\n");
+		printf("\n");
 }
