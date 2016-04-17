@@ -24,7 +24,7 @@ void	tr_receive_response(t_env *env, fd_set rdfs, int ret, int s_r)
 		fprintf(stdout, "* ");
 }
 
-void	tr_read(t_env *env, int s, unsigned int squeries_count,
+t_bool	tr_read(t_env *env, int s, unsigned int squeries_count,
 				struct timeval tv_start, struct timeval tv_end)
 {
 	double duration;
@@ -44,6 +44,9 @@ void	tr_read(t_env *env, int s, unsigned int squeries_count,
 
 	tr_display_response(env, inet_ntoa(ip->ip_src), inet_ntoa(ip->ip_src),
 		squeries_count, duration);
+	if (ft_strcmp(env->host_dst, inet_ntoa(ip->ip_src)) == 0)
+		return TRUE;
+	return FALSE;
 }
 
 int		tr_squeries_once(t_env *env, t_uint ttl, unsigned int port)
@@ -67,21 +70,21 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 	struct timeval	tv_start;
 	struct timeval	tv_end;
 	fd_set					rdfs;
-	// int							max_socket;
 	int							s;
 	int							s_r;
 	int							ret;
 	int							port;
+	t_bool					finish;
 
 	ttl_count = 1;
 	// tv.tv_sec = 2;
 	port = 33434;
 	s_r = tr_open_socket_receive();
 	tr_display_info(env);
-	while (ttl_count < max_ttl)
+	finish = FALSE;
+	while (!finish && ttl_count <= max_ttl)
 	{
 		squeries_count = 0;
-		// max_socket = 0;
 		ret = 0;
 		tv.tv_sec = 5;
 		fprintf(stdout, "%*d  ", 2, ttl_count);
@@ -92,14 +95,12 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 			close(s);
 			FD_ZERO(&rdfs);
 			FD_SET(s_r, &rdfs);
-			// if (s_r > max_socket)
-			// 	max_socket = s_r;
 			ret = select(s_r + 1, &rdfs, NULL, NULL, &tv);
 			// tr_receive_response(env, rdfs, ret, s_r);
 			if (ret < 0)
 				ft_error_str_exit("Error select\n");
 			else if (ret)
-				tr_read(env, s_r, squeries_count, tv_start, tv_end);
+				finish = tr_read(env, s_r, squeries_count, tv_start, tv_end);
 			else
 				tr_display_response(env, NULL, NULL, squeries_count, 0);
 				// fprintf(stdout, "* ");
