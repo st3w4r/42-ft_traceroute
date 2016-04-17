@@ -40,33 +40,3 @@ int		tr_open_socket_receive(void)
 		ft_error_str_exit("Error socket opening\n");
 	return (s);
 }
-
-void	tr_configure_header(t_env *env)
-{
-	env->ip = (struct ip *)env->buf;
-	env->udp = (struct udphdr*)(env->ip + 1);
-}
-
-void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq,
-		unsigned short ttl)
-{
-	ft_memset(&(env->buf), 0, sizeof(env->buf));
-	env->ip->ip_v = 4;
-	env->ip->ip_hl = sizeof(*(env->ip)) >> 2;
-	env->ip->ip_tos = 0;
-	env->ip->ip_len = htons(sizeof(env->buf));
-	env->ip->ip_id = 0;
-	env->ip->ip_off |= htons(IP_DF);
-	env->ip->ip_ttl = ttl;
-	env->ip->ip_p = env->res->ai_protocol;
-	env->ip->ip_sum = 0;
-	inet_pton(env->res->ai_family, env->host_src, &(env->ip->ip_src.s_addr));
-	inet_pton(env->res->ai_family, env->host_dst, &(env->ip->ip_dst.s_addr));
-	//UDP Header
-	/*
-	env->udp->source = 0;
-	env->udp->dest = port_dst;
-	env->udp->len = sizeof(*(env->udp));
-	env->udp->check = 0;
-	*/
-}

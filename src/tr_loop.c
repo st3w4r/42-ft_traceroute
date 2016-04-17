@@ -12,53 +12,47 @@
 
 #include "ft_traceroute.h"
 
-// void	tr_send_packet(t_env *env, )
-
-void	tr_receive_response(t_env *env, fd_set rdfs, int ret)
+void	tr_receive_response(t_env *env, fd_set rdfs, int ret, int s_r)
 {
-//	printf("Count socket: %u\n", rdfs.fd_count);
 	if (ret < 0)
 		ft_error_str_exit("Error select\n");
 	else if (ret)
 	{
 		fprintf(stdout, "Scoket ready: %d \n", ret);
-
-		// ft_putstr("Scoket ready: ");
-		// ft_putnbr(ret);
-		// ft_putstr("\n");
-//		printf("Socket ready: %d\n", ret);
-//		while (rdfs.fd_
 	}
 	else
 		fprintf(stdout, "* ");
-		// ft_putstr("* ");
 }
 
-void	tr_read(t_env *env, int s)
+void	tr_read(t_env *env, int s, unsigned int squeries_count,
+				struct timeval tv_start, struct timeval tv_end)
 {
-	char buf[400];
+	double duration;
 	struct ip *ip;
 	struct icmp *icmp;
 
-	ip = (struct ip *)buf;
+	duration = 0;
+	ft_memset(env->buf_r, 0, sizeof(env->buf_r));
+	ip = (struct ip *)env->buf_r;
 	icmp = (struct icmp *)(ip + 1);
-	if (recvfrom(s, buf, sizeof(buf), 0, env->res->ai_addr, &(env->res->ai_addrlen)) < 0)
+	if (recvfrom(s, env->buf_r, sizeof(env->buf_r), 0, env->res->ai_addr, &(env->res->ai_addrlen)) < 0)
 		ft_error_str_exit("Error recvfrom\n");
 
-	printf("Buffer IP SRC: %s\n", inet_ntoa(ip->ip_src));
-	printf("Buffer ICMP TYPE: %u\n", icmp->icmp_type);
-	printf("Buffer ICMP CODE: %u\n", icmp->icmp_code);
+	gettimeofday(&tv_end, NULL);
+	duration = (((double)tv_end.tv_sec * 1000000.0 + tv_end.tv_usec) - \
+		((double)tv_start.tv_sec * 1000000.0 + tv_start.tv_usec)) / 1000;
+
+	tr_display_response(env, inet_ntoa(ip->ip_src), inet_ntoa(ip->ip_src),
+		squeries_count, duration);
 }
 
 int		tr_squeries_once(t_env *env, t_uint ttl, unsigned int port)
 {
 	int s;
 	int nb_send;
-	// fd_set rdfs;
 
 	ft_memset(&(env->buf), 0, sizeof(env->buf));
 	s = tr_open_socket(env, ttl, port);
-	// tr_configure_send(env, 42, 24, ttl);
 	if ((nb_send = sendto(s, env->buf, sizeof(env->buf), 0, env->res->ai_addr,
 		env->res->ai_addrlen)) < 0)
 		ft_error_str_exit("Error sendto\n");
@@ -70,53 +64,49 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 	unsigned int		ttl_count;
 	unsigned int		squeries_count;
 	struct timeval	tv;
+	struct timeval	tv_start;
+	struct timeval	tv_end;
 	fd_set					rdfs;
-	int							max_socket;
+	// int							max_socket;
 	int							s;
 	int							s_r;
-	// int							arr_sockets[max_ttl * squeries];
 	int							ret;
-	// int							i;
 	int							port;
 
 	ttl_count = 1;
-	tv.tv_sec = 5;
-	// i = 0;
+	// tv.tv_sec = 2;
 	port = 33434;
 	s_r = tr_open_socket_receive();
 	tr_display_info(env);
 	while (ttl_count < max_ttl)
 	{
 		squeries_count = 0;
-		max_socket = 0;
+		// max_socket = 0;
 		ret = 0;
-		// FD_ZERO(&rdfs);
+		tv.tv_sec = 5;
 		fprintf(stdout, "%*d  ", 2, ttl_count);
 		while (squeries_count < squeries)
 		{
+			gettimeofday(&tv_start, NULL);
 			s = tr_squeries_once(env, ttl_count, port++);
-			// ft_putstr("Socket: ");
-			// ft_putnbr(s_r);
-			// ft_putstr("\n");
-
 			close(s);
 			FD_ZERO(&rdfs);
 			FD_SET(s_r, &rdfs);
-			if (s_r > max_socket)
-				max_socket = s_r;
+			// if (s_r > max_socket)
+			// 	max_socket = s_r;
 			ret = select(s_r + 1, &rdfs, NULL, NULL, &tv);
-			tr_receive_response(env, rdfs, ret);
-			if (ret > 0)
-				tr_read(env, s_r);
+			// tr_receive_response(env, rdfs, ret, s_r);
+			if (ret < 0)
+				ft_error_str_exit("Error select\n");
+			else if (ret)
+				tr_read(env, s_r, squeries_count, tv_start, tv_end);
+			else
+				tr_display_response(env, NULL, NULL, squeries_count, 0);
+				// fprintf(stdout, "* ");
 
-			// arr_sockets[i] = s_r;
 			squeries_count++;
 		}
-		fprintf(stdout, "\n");
-		// i++;
-		// ret = select(s_r + 1, &rdfs, NULL, NULL, &tv);
-		// tr_receive_response(env, rdfs, ret);
-		// tr_read(env, s_r);
+		// fprintf(stdout, "\n");;
 		ttl_count++;
 	}
 }

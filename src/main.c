@@ -59,32 +59,15 @@ int			main(int argc, char **argv)
 		tr_error_usage();
 	if (getuid() != 0)
 		ft_error_str_exit("ft_ping: Operation not permitted\n");
-	// pos_args = tr_options(&env, argc, argv);
-	// env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
-	// env.host_src = "0.0.0.0";
-	/*
-	env.flags = 0;
-	env.count = 0;
-	env.interval = 1;
-	env.timeout = 1;
-	env.ttl = 64;
-	*/
-	env.hops = 10;
+	pos_args = tr_options(&env, argc, argv);
+	env.hops = 30;
 	env.squeries = 3;
 	pos_args = tr_options(&env, argc, argv);
 	env.hostname_dst = argv[pos_args];
-	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
-	// printf("POS: %s\n", argv[pos_args]);
-	// env.host_dst = argv[pos_args];
+	// env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
+	env.host_dst = argv[pos_args];
 	env.host_src = "0.0.0.0";
-	/*
-	env.min = DBL_MAX;
-	env.pid = getpid();
-	*/
-	// tr_open_socket(&env);
-	// tr_configure_header(&env);
-	//signal(SIGALRM, pg_sig_handler);
-	//signal(SIGINT, pg_sig_handler);
+
 	tr_loop(&env, env.hops, env.squeries);
 	return (0);
 }

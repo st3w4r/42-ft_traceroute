@@ -31,6 +31,7 @@
 
 # define TRUE 1
 # define FALSE 0
+# define BUFLEN 100
 
 typedef unsigned char	t_bool;
 
@@ -39,6 +40,7 @@ enum	e_flags
 	FLAGS_V = 1 << 0,
 	FLAGS_H = 1 << 1
 };
+
 
 typedef struct	s_env {
 	unsigned int	hops;
@@ -65,12 +67,13 @@ typedef struct	s_env {
 	struct addrinfo			hints;
 	struct addrinfo			*res;
 	// SEND
-	char					buf[76];
+	char					buf[BUFLEN];
+	char					buf_r[BUFLEN];
 	char					*host_src;
 	char					*host_dst;
 	char					*hostname_dst;
-	struct ip				*ip;
-	struct udphdr			*udp;
+	// struct ip				*ip;
+	// struct udphdr			*udp;
 	// RECIEVE
 /*
 	struct iovec			iov[1];
@@ -104,6 +107,8 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries);
 ** Desc: Functions to display informations
 */
 void	tr_display_info(t_env *env);
+void	tr_display_response(t_env *env, char *fqdn, char *host,
+				unsigned int squeries_count, double duration);
 //void	pg_display_response(t_env *env, int bytes_receive, int seq,
 //		double duration);
 //void	pg_display_stats(t_env *env);
