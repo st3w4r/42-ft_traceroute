@@ -64,8 +64,8 @@ int			main(int argc, char **argv)
 	env.squeries = 3;
 	pos_args = tr_options(&env, argc, argv);
 	env.hostname_dst = argv[pos_args];
-	// env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
-	env.host_dst = argv[pos_args];
+	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
+	// env.host_dst = argv[pos_args];
 	env.host_src = "0.0.0.0";
 
 	tr_loop(&env, env.hops, env.squeries);
