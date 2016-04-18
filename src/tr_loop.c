@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:24 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/15 15:22:50 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/18 12:42:12 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ void	tr_receive_response(t_env *env, fd_set rdfs, int ret, int s_r)
 		fprintf(stdout, "* ");
 }
 
-t_bool	tr_read(t_env *env, int s, unsigned int squeries_count,
+t_bool	tr_read(t_env *env, int s,
 				struct timeval tv_start, struct timeval tv_end)
 {
 	double duration;
 	struct ip *ip;
 	struct icmp *icmp;
+	t_bool new_host;
 
 	duration = 0;
 	ft_memset(env->buf_r, 0, sizeof(env->buf_r));
@@ -42,8 +43,17 @@ t_bool	tr_read(t_env *env, int s, unsigned int squeries_count,
 	duration = (((double)tv_end.tv_sec * 1000000.0 + tv_end.tv_usec) - \
 		((double)tv_start.tv_sec * 1000000.0 + tv_start.tv_usec)) / 1000;
 
-	tr_display_response(env, tr_get_hostname_from_ip(ip->ip_src), inet_ntoa(ip->ip_src),
-		squeries_count, duration);
+	new_host = FALSE;
+	if (ft_strcmp(env->host_tmp, inet_ntoa(ip->ip_src)) != 0)
+	{
+		new_host = TRUE;
+		if (env->host_tmp != NULL)
+			free(env->host_tmp);
+		env->host_tmp = ft_strdup(inet_ntoa(ip->ip_src));
+	}
+	tr_display_response(env, new_host, tr_get_hostname_from_ip(ip->ip_src),
+			inet_ntoa(ip->ip_src), duration);
+
 	if (ft_strcmp(env->host_dst, inet_ntoa(ip->ip_src)) == 0)
 		return TRUE;
 	return FALSE;
@@ -77,7 +87,6 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 	t_bool					finish;
 
 	ttl_count = 1;
-	// tv.tv_sec = 2;
 	port = 33434;
 	s_r = tr_open_socket_receive();
 	tr_display_info(env);
@@ -87,6 +96,7 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 		squeries_count = 0;
 		ret = 0;
 		tv.tv_sec = 5;
+		env->host_tmp = NULL;
 		fprintf(stdout, "%*d ", 2, ttl_count);
 		while (squeries_count < squeries)
 		{
@@ -100,14 +110,14 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 			if (ret < 0)
 				ft_error_str_exit("Error select\n");
 			else if (ret)
-				finish = tr_read(env, s_r, squeries_count, tv_start, tv_end);
+				finish = tr_read(env, s_r, tv_start, tv_end);
 			else
-				tr_display_response(env, NULL, NULL, squeries_count, 0);
-				// fprintf(stdout, "* ");
+				printf(" *");
+				//tr_display_response(env, NULL, NULL, squeries_count, 0);
 
 			squeries_count++;
 		}
-		// fprintf(stdout, "\n");;
+		printf("\n");;
 		ttl_count++;
 	}
 }

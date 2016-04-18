@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/14 18:33:23 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/18 12:22:41 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct	s_env {
 	char					buf[BUFLEN];
 	char					buf_r[BUFLEN];
 	char					*host_src;
+	char					*host_tmp;
 	char					*host_dst;
 	char					*hostname_dst;
 	// struct ip				*ip;
@@ -107,8 +108,8 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries);
 ** Desc: Functions to display informations
 */
 void	tr_display_info(t_env *env);
-void	tr_display_response(t_env *env, char *fqdn, char *host,
-				unsigned int squeries_count, double duration);
+void	tr_display_response(t_env *env, t_bool new_host, char *fqdn, char *host,
+				double duration);
 //void	pg_display_response(t_env *env, int bytes_receive, int seq,
 //		double duration);
 //void	pg_display_stats(t_env *env);
