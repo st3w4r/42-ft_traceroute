@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/19 11:07:09 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/19 14:55:44 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ enum	e_flags
 
 typedef struct	s_env {
 	unsigned int	hops;
-	unsigned int	squeries;
+	unsigned int	nqueries;
 	unsigned int	ttl_count;
 /*
 	int						flags;
@@ -102,7 +102,7 @@ void	pg_configure_receive(t_env *env);
 ** Desc: Loop to send ICMP ECHO and receive ICMP REPLY
 */
 
-void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries);
+void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries);
 
 /*
 ** Name: pg_display

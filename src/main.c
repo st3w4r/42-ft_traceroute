@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:56:35 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/19 11:13:20 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/19 14:54:23 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int			tr_options(t_env *env, int argc, char **argv)
 		else if (opt == 'q')
 		{
 			value = ft_atoi(optarg);
-			(value > 0 && value <= 10) ? env->squeries = value : tr_e_i();
+			(value > 0 && value <= 10) ? env->nqueries = value : tr_e_i();
 		}
 		else if (opt == 'f')
 		{
@@ -79,7 +79,7 @@ int			main(int argc, char **argv)
 	if (getuid() != 0)
 		ft_error_str_exit("ft_ping: Operation not permitted\n");
 	env.hops = 30;
-	env.squeries = 3;
+	env.nqueries = 3;
 	env.ttl_count = 1;
 	pos_args = tr_options(&env, argc, argv);
 	env.hostname_dst = argv[pos_args];
@@ -87,6 +87,6 @@ int			main(int argc, char **argv)
 	// env.host_dst = argv[pos_args];
 	env.host_src = "0.0.0.0";
 
-	tr_loop(&env, env.hops, env.squeries);
+	tr_loop(&env, env.hops, env.nqueries);
 	return (0);
 }

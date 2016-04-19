@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:24 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/19 11:10:58 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/19 14:55:20 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		tr_send_config(int s, int port)
 	return (s);
 }
 
-int		tr_squeries_once(t_env *env, t_uint ttl, unsigned int port)
+int		tr_nqueries_once(t_env *env, t_uint ttl, unsigned int port)
 {
 	int s;
 	int nb_send;
@@ -87,18 +87,18 @@ int		tr_squeries_once(t_env *env, t_uint ttl, unsigned int port)
 	return (s);
 }
 
-void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
+void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries)
 {
-	unsigned int		squeries_count;
-	struct timeval	tv;
-	struct timeval	tv_start;
-	struct timeval	tv_end;
-	fd_set					rdfs;
-	int							s;
-	int							s_r;
-	int							ret;
-	int							port;
-	t_bool					finish;
+	unsigned int		nqueries_count;
+	struct timeval		tv;
+	struct timeval		tv_start;
+	struct timeval		tv_end;
+	fd_set				rdfs;
+	int					s;
+	int					s_r;
+	int					ret;
+	int					port;
+	t_bool				finish;
 
 	port = 33434;
 	s_r = tr_open_socket_receive();
@@ -106,15 +106,15 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 	finish = FALSE;
 	while (!finish && env->ttl_count <= max_ttl)
 	{
-		squeries_count = 0;
+		nqueries_count = 0;
 		ret = 0;
 		tv.tv_sec = 5;
 		env->host_tmp = NULL;
 		fprintf(stdout, "%*d ", 2, env->ttl_count);
-		while (squeries_count < squeries)
+		while (nqueries_count < nqueries)
 		{
 			gettimeofday(&tv_start, NULL);
-			s = tr_squeries_once(env, env->ttl_count, port++);
+			s = tr_nqueries_once(env, env->ttl_count, port++);
 			close(s);
 			FD_ZERO(&rdfs);
 			FD_SET(s_r, &rdfs);
@@ -126,9 +126,9 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 				finish = tr_read(env, s_r, tv_start, tv_end);
 			else
 				printf(" *");
-				//tr_display_response(env, NULL, NULL, squeries_count, 0);
+				//tr_display_response(env, NULL, NULL, nqueries_count, 0);
 
-			squeries_count++;
+			nqueries_count++;
 		}
 		printf("\n");;
 		env->ttl_count++;
