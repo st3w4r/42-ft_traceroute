@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:24 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/18 12:42:12 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/19 11:10:58 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,20 @@ t_bool	tr_read(t_env *env, int s,
 	return FALSE;
 }
 
+
+int		tr_send_config(int s, int port)
+{
+	struct sockaddr_in		sa_in;
+
+//	ft_memset(0, (char *)&sa_in, sizeof(sa_in));
+	sa_in.sin_family = AF_INET;
+	sa_in.sin_addr.s_addr = INADDR_ANY;
+	sa_in.sin_port = htons(port);
+	if (bind(s, (struct sockaddr *)&sa_in, sizeof(sa_in)) < 0)
+		ft_error_str_exit("Error bind\n");
+	return (s);
+}
+
 int		tr_squeries_once(t_env *env, t_uint ttl, unsigned int port)
 {
 	int s;
@@ -66,6 +80,7 @@ int		tr_squeries_once(t_env *env, t_uint ttl, unsigned int port)
 
 	ft_memset(&(env->buf), 0, sizeof(env->buf));
 	s = tr_open_socket(env, ttl, port);
+//	tr_send_config(s, port);
 	if ((nb_send = sendto(s, env->buf, sizeof(env->buf), 0, env->res->ai_addr,
 		env->res->ai_addrlen)) < 0)
 		ft_error_str_exit("Error sendto\n");
@@ -74,7 +89,6 @@ int		tr_squeries_once(t_env *env, t_uint ttl, unsigned int port)
 
 void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 {
-	unsigned int		ttl_count;
 	unsigned int		squeries_count;
 	struct timeval	tv;
 	struct timeval	tv_start;
@@ -86,22 +100,21 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 	int							port;
 	t_bool					finish;
 
-	ttl_count = 1;
 	port = 33434;
 	s_r = tr_open_socket_receive();
 	tr_display_info(env);
 	finish = FALSE;
-	while (!finish && ttl_count <= max_ttl)
+	while (!finish && env->ttl_count <= max_ttl)
 	{
 		squeries_count = 0;
 		ret = 0;
 		tv.tv_sec = 5;
 		env->host_tmp = NULL;
-		fprintf(stdout, "%*d ", 2, ttl_count);
+		fprintf(stdout, "%*d ", 2, env->ttl_count);
 		while (squeries_count < squeries)
 		{
 			gettimeofday(&tv_start, NULL);
-			s = tr_squeries_once(env, ttl_count, port++);
+			s = tr_squeries_once(env, env->ttl_count, port++);
 			close(s);
 			FD_ZERO(&rdfs);
 			FD_SET(s_r, &rdfs);
@@ -118,6 +131,6 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint squeries)
 			squeries_count++;
 		}
 		printf("\n");;
-		ttl_count++;
+		env->ttl_count++;
 	}
 }

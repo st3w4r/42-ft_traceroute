@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:09 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/15 11:24:08 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/18 14:23:15 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,10 @@ int		tr_open_socket_receive(void)
 		ft_error_str_exit("Error socket opening\n");
 	return (s);
 }
+/*
+int		tr_binder_socket(int s, struct sockaddr_in sa_in, int port)
+{
+	if (bind(s, (struct sock_addr *)&sa_in, sizeof(sa_in)) < 0)
+		ft_error_str_exit("Error bind\n");
+	return (s);
+}*/

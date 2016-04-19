@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/18 12:22:41 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/19 11:07:09 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ enum	e_flags
 typedef struct	s_env {
 	unsigned int	hops;
 	unsigned int	squeries;
+	unsigned int	ttl_count;
 /*
 	int						flags;
 	unsigned int			count;
