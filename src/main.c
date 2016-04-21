@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:56:35 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/21 17:20:40 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/21 18:04:46 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	tr_error_usage(void)
 {
-	ft_error_str_exit("Usage: ft_traceroute [-hmqf] HOST\n");
+	ft_error_str_exit("Usage: ft_traceroute [-hnmqfw] HOST\n");
 }
 
 static void	tr_help(void)
@@ -30,6 +30,8 @@ static void	tr_help(void)
 	"Start from the first_ttl hop (instead from 1)\n"
 	"   -w waittime         "
 	"Set the number of seconds to wait for response to a probe (default is 5)\n"
+	"   -n                  "
+	"Do not resolve IP addresses to their domain names\n"
 	"\n"
 	"   -h                  give this help list\n");
 	exit(0);
@@ -46,10 +48,12 @@ int			tr_options(t_env *env, int argc, char **argv)
 	int value;
 
 	value = 0;
-	while ((opt = getopt(argc, argv, "hm:q:f:w:")) != -1)
+	while ((opt = getopt(argc, argv, "hnm:q:f:w:")) != -1)
 	{
 		if (opt == 'h')
 			tr_help();
+		else if (opt == 'n')
+			env->flags |= FLAGS_N;
 		else if (opt == 'm')
 		{
 			value = ft_atoi(optarg);

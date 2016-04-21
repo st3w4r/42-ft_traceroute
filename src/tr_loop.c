@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:24 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/21 16:43:45 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/21 17:47:15 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ void	tr_receive_response(t_env *env, fd_set rdfs, int ret, int s_r)
 t_bool	tr_read(t_env *env, int s,
 				struct timeval tv_start, struct timeval tv_end)
 {
-	double duration;
-	struct ip *ip;
-	struct icmp *icmp;
-	t_bool new_host;
+	double	duration;
+	struct	ip *ip;
+	struct	icmp *icmp;
+	t_bool	new_host;
+	char	*fqdn;
 
 	duration = 0;
 	ft_memset(env->buf_r, 0, sizeof(env->buf_r));
@@ -51,8 +52,13 @@ t_bool	tr_read(t_env *env, int s,
 			free(env->host_tmp);
 		env->host_tmp = ft_strdup(inet_ntoa(ip->ip_src));
 	}
-	tr_display_response(env, new_host, tr_get_hostname_from_ip(ip->ip_src),
-			inet_ntoa(ip->ip_src), duration);
+
+	if (env->flags & FLAGS_N)
+		fqdn = NULL;
+	else
+		fqdn = tr_get_hostname_from_ip(ip->ip_src);
+
+	tr_display_response(env, new_host, fqdn, inet_ntoa(ip->ip_src), duration);
 
 	if (ft_strcmp(env->host_dst, inet_ntoa(ip->ip_src)) == 0)
 		return TRUE;

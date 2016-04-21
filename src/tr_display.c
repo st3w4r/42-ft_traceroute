@@ -13,8 +13,10 @@ void	tr_display_response(t_env *env, t_bool new_host, char *fqdn,
 		printf(" *");
 	else
 	{*/
-		if (new_host)
+		if (new_host && fqdn)
 			printf(" %s (%s)", fqdn, host);
+		else if (new_host)
+			printf(" %s", host);
 		printf("  %.3f ms", duration);
 /*	}
 

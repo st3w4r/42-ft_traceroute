@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/21 16:43:40 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/21 17:38:54 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef unsigned char	t_bool;
 enum	e_flags
 {
 	FLAGS_V = 1 << 0,
-	FLAGS_H = 1 << 1
+	FLAGS_H = 1 << 1,
+	FLAGS_N = 1 << 2
 };
 
 
@@ -47,6 +48,7 @@ typedef struct	s_env {
 	unsigned int	nqueries;
 	unsigned int	ttl_count;
 	unsigned int	timeout;
+	int				flags;
 /*
 	int						flags;
 	unsigned int			count;
