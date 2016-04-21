@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:24 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/19 14:55:20 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/21 16:43:45 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries)
 	{
 		nqueries_count = 0;
 		ret = 0;
-		tv.tv_sec = 5;
+		tv.tv_sec = env->timeout;
 		env->host_tmp = NULL;
 		fprintf(stdout, "%*d ", 2, env->ttl_count);
 		while (nqueries_count < nqueries)

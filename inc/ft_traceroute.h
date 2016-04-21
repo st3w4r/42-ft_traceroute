@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/19 14:55:44 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/21 16:43:40 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct	s_env {
 	unsigned int	hops;
 	unsigned int	nqueries;
 	unsigned int	ttl_count;
+	unsigned int	timeout;
 /*
 	int						flags;
 	unsigned int			count;

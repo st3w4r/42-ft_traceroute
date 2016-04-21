@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:56:35 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/19 14:54:23 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/21 17:20:40 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	tr_help(void)
 	"Set the number of probes per each hop. Default is 3\n"
 	"   -f first_ttl        "
 	"Start from the first_ttl hop (instead from 1)\n"
+	"   -w waittime         "
+	"Set the number of seconds to wait for response to a probe (default is 5)\n"
 	"\n"
 	"   -h                  give this help list\n");
 	exit(0);
@@ -44,7 +46,7 @@ int			tr_options(t_env *env, int argc, char **argv)
 	int value;
 
 	value = 0;
-	while ((opt = getopt(argc, argv, "hm:q:f:")) != -1)
+	while ((opt = getopt(argc, argv, "hm:q:f:w:")) != -1)
 	{
 		if (opt == 'h')
 			tr_help();
@@ -62,6 +64,11 @@ int			tr_options(t_env *env, int argc, char **argv)
 		{
 			value = ft_atoi(optarg);
 			(value > 0 && value <= env->hops) ? env->ttl_count = value : tr_e_i();
+		}
+		else if (opt == 'w')
+		{
+			value = ft_atoi(optarg);
+			(value >= 0) ? env->timeout = value : tr_e_i();
 		}
 		else
 			tr_error_usage();
@@ -81,6 +88,7 @@ int			main(int argc, char **argv)
 	env.hops = 30;
 	env.nqueries = 3;
 	env.ttl_count = 1;
+	env.timeout = 5;
 	pos_args = tr_options(&env, argc, argv);
 	env.hostname_dst = argv[pos_args];
 	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
