@@ -51,6 +51,7 @@ t_bool	tr_read(t_env *env, int s,
 			free(env->host_tmp);
 		env->host_tmp = ft_strdup(inet_ntoa(ip->ip_src));
 	}
+	printf("\nID: %d\n", htons(ip->ip_id));
 	tr_display_response(env, new_host, tr_get_hostname_from_ip(ip->ip_src),
 			inet_ntoa(ip->ip_src), duration);
 
@@ -80,7 +81,8 @@ int		tr_nqueries_once(t_env *env, t_uint ttl, unsigned int port)
 
 	ft_memset(&(env->buf), 0, sizeof(env->buf));
 	s = tr_open_socket(env, ttl, port);
-//	tr_send_config(s, port);
+	// tr_send_config(s, port);
+	tr_configure_send(env, 4242, 0, ttl, port);
 	if ((nb_send = sendto(s, env->buf, sizeof(env->buf), 0, env->res->ai_addr,
 		env->res->ai_addrlen)) < 0)
 		ft_error_str_exit("Error sendto\n");

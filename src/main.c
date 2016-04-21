@@ -86,7 +86,7 @@ int			main(int argc, char **argv)
 	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
 	// env.host_dst = argv[pos_args];
 	env.host_src = "0.0.0.0";
-
+	tr_configure_header(&env);
 	tr_loop(&env, env.hops, env.nqueries);
 	return (0);
 }

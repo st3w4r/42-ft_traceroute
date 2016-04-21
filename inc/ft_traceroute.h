@@ -74,8 +74,8 @@ typedef struct	s_env {
 	char					*host_tmp;
 	char					*host_dst;
 	char					*hostname_dst;
-	// struct ip				*ip;
-	// struct udphdr			*udp;
+	struct ip				*ip;
+	struct udphdr			*udp;
 	// RECIEVE
 /*
 	struct iovec			iov[1];
@@ -93,7 +93,8 @@ typedef struct	s_env {
 int		tr_open_socket(t_env *env, unsigned short ttl, unsigned int port);
 int		tr_open_socket_receive(void);
 void	tr_configure_header(t_env *env);
-void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl);
+void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq,
+	unsigned short ttl, unsigned int port);
 /*
 void	pg_configure_receive(t_env *env);
 */
