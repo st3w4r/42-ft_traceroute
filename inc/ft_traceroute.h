@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/21 17:38:54 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/26 11:42:14 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # define TRUE 1
 # define FALSE 0
-# define BUFLEN 100
+# define BUFLEN 32
 
 typedef unsigned char	t_bool;
 

@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:24 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/21 17:47:15 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/26 11:37:52 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		tr_nqueries_once(t_env *env, t_uint ttl, unsigned int port)
 //	tr_send_config(s, port);
 	if ((nb_send = sendto(s, env->buf, sizeof(env->buf), 0, env->res->ai_addr,
 		env->res->ai_addrlen)) < 0)
-		ft_error_str_exit("Error sendto\n");
+		ft_error_str_exit("connect: Invalid argument\n");
 	return (s);
 }
 
