@@ -71,11 +71,7 @@ typedef struct	s_env {
 */
 int		tr_open_socket(t_env *env, unsigned short ttl, unsigned int port);
 int		tr_open_socket_receive(void);
-void	tr_configure_header(t_env *env);
-void	tr_configure_send(t_env *env, unsigned short id, unsigned short seq, unsigned short ttl);
-/*
-void	pg_configure_receive(t_env *env);
-*/
+
 /*
 ** Name: pg_loop
 ** Desc: Loop to send ICMP ECHO and receive ICMP REPLY
@@ -90,9 +86,6 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries);
 void	tr_display_info(t_env *env);
 void	tr_display_response(t_env *env, t_bool new_host, char *fqdn, char *host,
 				double duration);
-//void	pg_display_response(t_env *env, int bytes_receive, int seq,
-//		double duration);
-//void	pg_display_stats(t_env *env);
 
 /*
 ** Name: pg_helper
@@ -100,9 +93,7 @@ void	tr_display_response(t_env *env, t_bool new_host, char *fqdn, char *host,
 */
 
 //unsigned short	pg_icmp_checksum(unsigned short *buf, int len);
-//void	pg_sig_handler(int sig);
 char	*tr_get_ip_from_hostname(char *hostname);
 char	*tr_get_hostname_from_ip(struct in_addr ip);
-//void	pg_duration_stats(t_env *env, double duration);
 
 #endif

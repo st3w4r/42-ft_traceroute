@@ -12,7 +12,7 @@
 
 #include "ft_traceroute.h"
 
-t_bool	tr_receive_response(t_env *env, int ret)
+static t_bool	tr_receive_response(t_env *env, int ret)
 {
 	if (ret < 0)
 		ft_error_str_exit("Error select\n");
@@ -23,7 +23,7 @@ t_bool	tr_receive_response(t_env *env, int ret)
 	return FALSE;
 }
 
-t_bool	tr_read(t_env *env, int s,
+static t_bool	tr_read(t_env *env, int s,
 				struct timeval tv_start, struct timeval tv_end)
 {
 	double	duration;
@@ -64,7 +64,7 @@ t_bool	tr_read(t_env *env, int s,
 	return FALSE;
 }
 
-int		tr_nqueries_once(t_env *env, t_uint ttl, unsigned int port)
+static int		tr_nqueries_once(t_env *env, t_uint ttl, unsigned int port)
 {
 	int s;
 	int nb_send;
