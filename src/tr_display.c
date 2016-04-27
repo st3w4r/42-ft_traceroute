@@ -19,7 +19,7 @@ void	tr_display_info(t_env *env)
 			sizeof(env->buf) + sizeof(struct ip) + sizeof(struct udphdr));
 }
 
-void	tr_display_response(t_env *env, t_bool new_host, char *fqdn,
+void	tr_display_response(t_bool new_host, char *fqdn,
 		char *host, double duration)
 {
 	if (new_host && fqdn)

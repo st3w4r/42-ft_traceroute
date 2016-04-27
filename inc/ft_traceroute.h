@@ -66,33 +66,31 @@ typedef struct	s_env {
 // t_env	env;
 
 /*
-** Name: pg_connect
+** Name: tr_connect
 ** Desc: Configure and open socket
 */
 int		tr_open_socket(t_env *env, unsigned short ttl, unsigned int port);
 int		tr_open_socket_receive(void);
 
 /*
-** Name: pg_loop
+** Name: tr_loop
 ** Desc: Loop to send ICMP ECHO and receive ICMP REPLY
 */
 
 void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries);
 
 /*
-** Name: pg_display
+** Name: tr_display
 ** Desc: Functions to display informations
 */
 void	tr_display_info(t_env *env);
-void	tr_display_response(t_env *env, t_bool new_host, char *fqdn, char *host,
+void	tr_display_response(t_bool new_host, char *fqdn, char *host,
 				double duration);
 
 /*
-** Name: pg_helper
+** Name: tr_helper
 ** Desc: Helpers Functions
 */
-
-//unsigned short	pg_icmp_checksum(unsigned short *buf, int len);
 char	*tr_get_ip_from_hostname(char *hostname);
 char	*tr_get_hostname_from_ip(struct in_addr ip);
 

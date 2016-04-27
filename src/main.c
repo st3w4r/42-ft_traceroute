@@ -42,10 +42,10 @@ static void	tr_e_i(void)
 	ft_error_str_exit("ft_traceroute: invalid value\n");
 }
 
-int			tr_options(t_env *env, int argc, char **argv)
+static int			tr_options(t_env *env, int argc, char **argv)
 {
-	int opt;
-	int value;
+	int						opt;
+	int	value;
 
 	value = 0;
 	while ((opt = getopt(argc, argv, "hnm:q:f:w:")) != -1)
@@ -67,7 +67,7 @@ int			tr_options(t_env *env, int argc, char **argv)
 		else if (opt == 'f')
 		{
 			value = ft_atoi(optarg);
-			(value > 0 && value <= env->hops) ? env->ttl_count = value : tr_e_i();
+			(value > 0 && value <= (int)env->hops) ? env->ttl_count = value : tr_e_i();
 		}
 		else if (opt == 'w')
 		{

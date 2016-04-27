@@ -12,7 +12,7 @@
 
 #include "ft_traceroute.h"
 
-static t_bool	tr_receive_response(t_env *env, int ret)
+static t_bool	tr_receive_response(int ret)
 {
 	if (ret < 0)
 		ft_error_str_exit("Error select\n");
@@ -57,7 +57,7 @@ static t_bool	tr_read(t_env *env, int s,
 	else
 		fqdn = tr_get_hostname_from_ip(ip->ip_src);
 
-	tr_display_response(env, new_host, fqdn, inet_ntoa(ip->ip_src), duration);
+	tr_display_response(new_host, fqdn, inet_ntoa(ip->ip_src), duration);
 
 	if (ft_strcmp(env->host_dst, inet_ntoa(ip->ip_src)) == 0)
 		return TRUE;
@@ -110,7 +110,7 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries)
 			FD_ZERO(&rdfs);
 			FD_SET(s_r, &rdfs);
 			ret = select(s_r + 1, &rdfs, NULL, NULL, &tv);
-			if (tr_receive_response(env, ret))
+			if (tr_receive_response(ret))
 				finish = tr_read(env, s_r, tv_start, tv_end);
 
 			nqueries_count++;
