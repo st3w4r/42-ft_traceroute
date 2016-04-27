@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:56:35 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/21 18:04:46 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/27 16:08:23 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int			main(int argc, char **argv)
 	pos_args = tr_options(&env, argc, argv);
 	env.hostname_dst = argv[pos_args];
 	env.host_dst = tr_get_ip_from_hostname(argv[pos_args]);
-	// env.host_dst = argv[pos_args];
 	env.host_src = "0.0.0.0";
 
 	tr_loop(&env, env.hops, env.nqueries);

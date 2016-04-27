@@ -6,22 +6,21 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:24 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/26 11:37:52 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/27 16:45:42 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_traceroute.h"
 
-void	tr_receive_response(t_env *env, fd_set rdfs, int ret, int s_r)
+t_bool	tr_receive_response(t_env *env, int ret)
 {
 	if (ret < 0)
 		ft_error_str_exit("Error select\n");
 	else if (ret)
-	{
-		fprintf(stdout, "Scoket ready: %d \n", ret);
-	}
+		return TRUE;
 	else
-		fprintf(stdout, "* ");
+		fprintf(stdout, " *");
+	return FALSE;
 }
 
 t_bool	tr_read(t_env *env, int s,
@@ -65,20 +64,6 @@ t_bool	tr_read(t_env *env, int s,
 	return FALSE;
 }
 
-
-int		tr_send_config(int s, int port)
-{
-	struct sockaddr_in		sa_in;
-
-//	ft_memset(0, (char *)&sa_in, sizeof(sa_in));
-	sa_in.sin_family = AF_INET;
-	sa_in.sin_addr.s_addr = INADDR_ANY;
-	sa_in.sin_port = htons(port);
-	if (bind(s, (struct sockaddr *)&sa_in, sizeof(sa_in)) < 0)
-		ft_error_str_exit("Error bind\n");
-	return (s);
-}
-
 int		tr_nqueries_once(t_env *env, t_uint ttl, unsigned int port)
 {
 	int s;
@@ -86,7 +71,6 @@ int		tr_nqueries_once(t_env *env, t_uint ttl, unsigned int port)
 
 	ft_memset(&(env->buf), 0, sizeof(env->buf));
 	s = tr_open_socket(env, ttl, port);
-//	tr_send_config(s, port);
 	if ((nb_send = sendto(s, env->buf, sizeof(env->buf), 0, env->res->ai_addr,
 		env->res->ai_addrlen)) < 0)
 		ft_error_str_exit("connect: Invalid argument\n");
@@ -106,7 +90,7 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries)
 	int					port;
 	t_bool				finish;
 
-	port = 33434;
+	port = PORT;
 	s_r = tr_open_socket_receive();
 	tr_display_info(env);
 	finish = FALSE;
@@ -126,14 +110,8 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries)
 			FD_ZERO(&rdfs);
 			FD_SET(s_r, &rdfs);
 			ret = select(s_r + 1, &rdfs, NULL, NULL, &tv);
-			// tr_receive_response(env, rdfs, ret, s_r);
-			if (ret < 0)
-				ft_error_str_exit("Error select\n");
-			else if (ret)
+			if (tr_receive_response(env, ret))
 				finish = tr_read(env, s_r, tv_start, tv_end);
-			else
-				printf(" *");
-				//tr_display_response(env, NULL, NULL, nqueries_count, 0);
 
 			nqueries_count++;
 		}

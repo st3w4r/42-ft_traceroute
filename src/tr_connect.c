@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 15:20:09 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/19 14:55:46 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/27 16:17:31 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int		tr_open_socket(t_env *env, unsigned short ttl, unsigned int port)
 		ft_error_str_exit("Error socket opening\n");
 	if (setsockopt(s, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl)) < 0)
 		ft_error_str_exit("Error setsocket ttl\n");
-	// printf("PORT: %hu\n", htons(((struct sockaddr_in *)env->res->ai_addr)->sin_port));
 	return (s);
 }
 
@@ -40,10 +39,3 @@ int		tr_open_socket_receive(void)
 		ft_error_str_exit("Error socket opening\n");
 	return (s);
 }
-/*
-int		tr_binder_socket(int s, struct sockaddr_in sa_in, int port)
-{
-	if (bind(s, (struct sock_addr *)&sa_in, sizeof(sa_in)) < 0)
-		ft_error_str_exit("Error bind\n");
-	return (s);
-}*/

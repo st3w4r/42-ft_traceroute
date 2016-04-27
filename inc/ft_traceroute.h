@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 10:55:55 by ybarbier          #+#    #+#             */
-/*   Updated: 2016/04/26 11:42:14 by ybarbier         ###   ########.fr       */
+/*   Updated: 2016/04/27 16:40:37 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define TRUE 1
 # define FALSE 0
 # define BUFLEN 32
+# define PORT 33434
 
 typedef unsigned char	t_bool;
 
@@ -44,47 +45,22 @@ enum	e_flags
 
 
 typedef struct	s_env {
-	unsigned int	hops;
-	unsigned int	nqueries;
-	unsigned int	ttl_count;
-	unsigned int	timeout;
-	int				flags;
-/*
-	int						flags;
-	unsigned int			count;
-	unsigned int			interval;
-	unsigned int			timeout;
-	unsigned int			ttl;
-	t_bool					timeout_flag;
-	t_bool					df_flag;
-	pid_t					pid;
-	unsigned int			packets_send;
-	unsigned int			packets_receive;
-	unsigned short			seq;
-	double					min;
-	double					max;
-	double					cumul;
-	double					cumul_s;
-*/
+	unsigned int		hops;
+	unsigned int		nqueries;
+	unsigned int		ttl_count;
+	unsigned int		timeout;
+	int					flags;
 	// SOCKET
-//	int						s;
-	struct addrinfo			hints;
-	struct addrinfo			*res;
+	struct addrinfo		hints;
+	struct addrinfo		*res;
 	// SEND
-	char					buf[BUFLEN];
-	char					buf_r[BUFLEN];
-	char					*host_src;
-	char					*host_tmp;
-	char					*host_dst;
-	char					*hostname_dst;
-	// struct ip				*ip;
-	// struct udphdr			*udp;
+	char				buf[BUFLEN];
+	char				*host_src;
+	char				*host_tmp;
+	char				*host_dst;
+	char				*hostname_dst;
 	// RECIEVE
-/*
-	struct iovec			iov[1];
-	struct msghdr			msg;
-	char					buf_control[1000];
-*/
+	char				buf_r[BUFLEN];
 }				t_env;
 
 // t_env	env;

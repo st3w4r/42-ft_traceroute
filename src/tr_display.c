@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tr_display.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/27 16:44:53 by ybarbier          #+#    #+#             */
+/*   Updated: 2016/04/27 16:45:06 by ybarbier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_traceroute.h"
 
 void	tr_display_info(t_env *env)
@@ -10,18 +22,9 @@ void	tr_display_info(t_env *env)
 void	tr_display_response(t_env *env, t_bool new_host, char *fqdn,
 		char *host, double duration)
 {
-/*	if (host == NULL)
-		printf(" *");
-	else
-	{*/
-		if (new_host && fqdn)
-			printf(" %s (%s)", fqdn, host);
-		else if (new_host)
-			printf(" %s", host);
-		printf("  %.3f ms", duration);
-/*	}
-
-	if (squeries_count == env->squeries - 1)
-		printf("\n");
-*/
+	if (new_host && fqdn)
+		printf(" %s (%s)", fqdn, host);
+	else if (new_host)
+		printf(" %s", host);
+	printf("  %.3f ms", duration);
 }
