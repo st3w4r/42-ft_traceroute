@@ -116,12 +116,13 @@ void	tr_loop(t_env *env, t_uint max_ttl, t_uint nqueries)
 		ret = 0;
 		tv.tv_sec = env->timeout;
 		env->host_tmp = NULL;
-		fprintf(stdout, "%*d ", 2, env->ttl_count);
 		while (nqueries_count < nqueries)
 		{
 			gettimeofday(&tv_start, NULL);
 			s = tr_nqueries_once(env, env->ttl_count, port++);
 			close(s);
+			if (nqueries_count == 0)
+				printf("%*d ", 2, env->ttl_count);
 			FD_ZERO(&rdfs);
 			FD_SET(s_r, &rdfs);
 			ret = select(s_r + 1, &rdfs, NULL, NULL, &tv);
